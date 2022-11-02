@@ -12,8 +12,8 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/signup.html");
 });
 mailchimp.setConfig({
-  apiKey: "eb5927dc06d05549e9257d3a005af69e-us13",
-  server: "us13",
+  apiKey: "",
+  server: "",
 });
 
 app.post("/", function (req, res) {
@@ -21,7 +21,7 @@ app.post("/", function (req, res) {
   var lastName = req.body.lname;
   var email = req.body.email;
 
-  const listId = "f5fd253574";
+  const listId = "";
   const subscribingUser = {
     firstName: firstName,
     lastName: lastName,
@@ -55,4 +55,4 @@ app.get("/success", function (req, res) {
   res.sendFile(__dirname + "/success.html");
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
