@@ -12,8 +12,8 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/signup.html");
 });
 mailchimp.setConfig({
-  apiKey: "",
-  server: "",
+  apiKey: "002dd2d89a88e9c16b13ec32fbf4743f-us13",
+  server: "us13",
 });
 
 app.post("/", function (req, res) {
@@ -21,7 +21,7 @@ app.post("/", function (req, res) {
   var lastName = req.body.lname;
   var email = req.body.email;
 
-  const listId = "";
+  const listId = "f5fd253574";
   const subscribingUser = {
     firstName: firstName,
     lastName: lastName,
