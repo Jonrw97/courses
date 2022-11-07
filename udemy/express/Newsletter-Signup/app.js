@@ -11,11 +11,15 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/signup.html");
 });
+if (!process.env.MAILCHIMP_API_KEY) {
+  throw new Error("Missing api key");
+}
 mailchimp.setConfig({
-  apiKey: "002dd2d89a88e9c16b13ec32fbf4743f-us13",
+  apiKey: process.env.MAILCHIMP_API_KEY,
   server: "us13",
 });
 
+// ""
 app.post("/", function (req, res) {
   var firstName = req.body.fname;
   var lastName = req.body.lname;
@@ -39,6 +43,7 @@ app.post("/", function (req, res) {
         },
       });
     } catch (err) {
+      console.error(err);
       res.redirect("/failure");
       return;
     }
