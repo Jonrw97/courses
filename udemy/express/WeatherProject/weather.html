@@ -26,14 +26,15 @@
     </nav>
     <div class="container card-body" style="width: 20rem;">
       <form action="/" method="post">
-        <div class="card-header"> <label for="cityInput">City Name</label></div>
-        <div>
-          <input class="form-control" id="cityInput" type="text" name="cityName" size="50" />
+        <div class="card-header"> <h5><%=query%></h5></div>
+        <div class="card-text">
+          <p>The weather in <%=query%> is <%=temp%> degrees Celcius</p>
         </div>
-        <div class="card-text text-center" style="padding: 1rem;">
-          <button class="btn btn-primary" type="submit">Go</button>
-        </div>
-      </form>
+        <div class="card-text">
+            <p>The weather description in <%=query%> is <%=weather%></p>
+          </div>
+          <img class="card-img" src="http://openweathermap.org/img/wn/<%=icon%>@2x.png" alt="Card image cap">
+        </form>
     </div>
   </body>
 </html>
