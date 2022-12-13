@@ -1,8 +1,10 @@
 //jshint esversion:6
+require("dotenv").config();
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const encrypt = require("mongoose-encryption");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const app = express();
 
@@ -24,10 +26,6 @@ const userSchema = new mongoose.Schema({
   password: String,
 });
 
-const secret = "Thisisourlittlesecret.";
-
-userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
-
 const User = new mongoose.model("User", userSchema);
 
 app.get("/", function (req, res) {
@@ -43,9 +41,10 @@ app.get("/register", function (req, res) {
 });
 
 app.post("/register", async function (req, res) {
+  const hash = await bcrypt.hash(req.body.password, saltRounds);
   const newUser = new User({
     email: req.body.username,
-    password: req.body.password,
+    password: hash,
   });
   await newUser.save();
   res.render("secrets");
@@ -57,11 +56,14 @@ app.post("/login", async function (req, res) {
 
   const foundUser = await User.findOne({ email: username });
   if (foundUser) {
-    if (foundUser.password === password) {
-      res.render("secrets");
-    } else {
-      console.log("Incorrect password");
-    }
+    bcrypt.compare(password, foundUser.password).then(function (result) {
+      if (result) {
+        res.render("secrets");
+      } else {
+        console.log("Incorrect password");
+        console.log(result);
+      }
+    });
   } else {
     console.log("User Not found.");
   }
